@@ -32,7 +32,12 @@ function downloadSingleVideo(url) {
     })
 }
 
-downloadSingleVideo('https://youtu.be/lCGrVHUsXPo').then(value => console.log(value)).catch(err => console.log(err))
+module.exports.getVideoFormats = getVideoFormats
+module.exports.downloadSingleVideo = downloadSingleVideo
+
+
+
+// downloadSingleVideo('https://youtu.be/lCGrVHUsXPo').then(value => console.log(value)).catch(err => console.log(err))
 
 
 
