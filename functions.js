@@ -2,7 +2,7 @@ const { exec } = require('child_process');
 
 
 //list all audio and video formats 
-function getVideoFormats(url) {
+function getVideoInfo(url) {
     return new Promise((resolve,reject) => {
         exec('youtube-dl --list-formats  '+ url, (error,stdout,stderr) => {
             if(error) {
@@ -11,14 +11,14 @@ function getVideoFormats(url) {
             if(stderr) {
                 reject(error)
             }
-            resolve(convertFormats(stdout))
+            resolve(convertFormats(stdout,url))
         })
     })
 }
 
 //convert formats infomation to array
-function convertFormats(text) {
-    let formatsArr = text.split('\n').slice(5)
+function convertFormats(stdout,url) {
+    let formatsArr = stdout.split('\n').slice(5)
     
     let audioN = formatsArr.filter((item) => item.indexOf('m4a') != -1 ).map((item) => parseInt(item.substring(0,3)))[0]
 
@@ -37,32 +37,43 @@ function convertFormats(text) {
         bestVideoN,
         bestVideoP,
         bestVideoM,
-        audioVideoN
+        url
     }
 
     return best
 }
 
 
-//download a video 
-function downloadSingleVideo({bestVideoN, audioN, audioVideoN, url}) {
+//download 720p
+function download720(url) {
+    
     return new Promise((resolve,reject) => {
-        if(audioVideoN != null) {
-            console.log(`*************** download the hd video now! ******************`);
+        console.log(`*************** download the hd video now! ******************`);
             
-            exec("cd /home/yuxiang/mp4 && youtube-dl -f best -o '%(title)s.%(ext)s' "+ url, (error,stdout,stderr) => {
-                if(error) {
-                    reject(error)
-                }
-                if(stderr) {
-                    reject(error)
-                }
-                resolve(stdout)
-            })
-        }else {
+        exec("cd /var/ftp && youtube-dl -f best -o '%(title)s.%(ext)s' "+ url, (error,stdout,stderr) => {
+            if(error) {
+                reject(error)
+            }
+            if(stderr) {
+                reject(error)
+            }
+            resolve(stdout)
+        })
+    })
+
+}
+
+
+
+
+
+//download a video 
+function download1080({bestVideoN, audioN, url}) {
+    return new Promise((resolve,reject) => {
+
             console.log(`$$$$$$$$$$$$$$$$$$$ download the best video now! ****************`)
 
-            exec("cd /home/yuxiang/mp4 && youtube-dl -f " + bestVideoN + "+" + audioN + " -o '%(title)s.%(ext)s' "+ url, (error,stdout,stderr) => {
+            exec("cd /var/ftp && youtube-dl -f " + bestVideoN + "+" + audioN + " -o '%(title)s.%(ext)s' "+ url, (error,stdout,stderr) => {
                 if(error) {
                     reject(error)
                 }
@@ -71,14 +82,12 @@ function downloadSingleVideo({bestVideoN, audioN, audioVideoN, url}) {
                 }
                 resolve(stdout)
             }) 
-        }
-
-
     })
 }
 
-module.exports.getVideoFormats = getVideoFormats
-module.exports.downloadSingleVideo = downloadSingleVideo
+module.exports.getVideoInfo = getVideoInfo
+module.exports.download1080 = download1080
+module.exports.download720 = download720
 
 
 
@@ -88,7 +97,7 @@ module.exports.downloadSingleVideo = downloadSingleVideo
 
 
 
-// getVideoFormats('https://youtu.be/lCGrVHUsXPo').then(value => console.log(value.split('MiB'))).catch(err => console.log(err))
+// getVideoInfo('https://youtu.be/lCGrVHUsXPo').then(value => console.log(value.split('MiB'))).catch(err => console.log(err))
 
 
 
