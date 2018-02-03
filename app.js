@@ -1,4 +1,6 @@
 const app = require('express')()
+const bodyParser = require('body-parser').json()
+app.use(bodyParser)
 
 const {downloadSingleVideo, getVideoFormats} = require('./functions')
 
@@ -12,6 +14,13 @@ app.get('/format', (req,res) => {
         res.send(err.toString())
     })
 })
+
+
+app.post('/download', (req,res) => {
+    downloadSingleVideo(req.body).then(value => res.send(value))
+})
+
+
 
 
 app.listen(3000,'localhost',() => {

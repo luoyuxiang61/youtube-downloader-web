@@ -40,24 +40,40 @@ function convertFormats(text) {
         audioVideoN
     }
 
-    
-    
     return best
 }
 
 
 //download a video 
-function downloadSingleVideo(url) {
+function downloadSingleVideo({bestVideoN, audioN, audioVideoN, url}) {
     return new Promise((resolve,reject) => {
-        exec('cd /home/yuxiang/mp4 && pwd && youtube-dl '+ url, (error,stdout,stderr) => {
-            if(error) {
-                reject(error)
-            }
-            if(stderr) {
-                reject(error)
-            }
-            resolve(stdout)
-        })
+        if(audioVideoN != null) {
+            console.log(`*************** download the hd video now! ******************`);
+            
+            exec("cd /home/yuxiang/mp4 && youtube-dl -f best -o '%(title)s.%(ext)s' "+ url, (error,stdout,stderr) => {
+                if(error) {
+                    reject(error)
+                }
+                if(stderr) {
+                    reject(error)
+                }
+                resolve(stdout)
+            })
+        }else {
+            console.log(`$$$$$$$$$$$$$$$$$$$ download the best video now! ****************`)
+
+            exec("cd /home/yuxiang/mp4 && youtube-dl -f " + bestVideoN + "+" + audioN + " -o '%(title)s.%(ext)s' "+ url, (error,stdout,stderr) => {
+                if(error) {
+                    reject(error)
+                }
+                if(stderr) {
+                    reject(error)
+                }
+                resolve(stdout)
+            }) 
+        }
+
+
     })
 }
 
