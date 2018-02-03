@@ -20,20 +20,29 @@ function getVideoFormats(url) {
 function convertFormats(text) {
     let formatsArr = text.split('\n').slice(5)
     
-    let audio = formatsArr.filter((item) => item.indexOf('m4a') != -1 ).map((item) => parseInt(item.substring(0,3)))[0]
-    let bestVideo = formatsArr.filter((item) => item.indexOf('mp4') != -1 && item.indexOf('video only') != -1).pop()
-    let bestVideon = parseInt(formatsArr.filter((item) => item.indexOf('mp4') != -1 && item.indexOf('video only') != -1).pop().substring(0,3))
+    let audioN = formatsArr.filter((item) => item.indexOf('m4a') != -1 ).map((item) => parseInt(item.substring(0,3)))[0]
+
+   
+    let bestVideoInfo = formatsArr.filter((item) => item.indexOf('mp4') != -1 && item.indexOf('video only') != -1).pop()
+    let bestVideoP = bestVideoInfo.substr(35,5).trim()
+    let bestVideoM = bestVideoInfo.substring(bestVideoInfo.length - 9).replace(/,/,' ').trim()
+    let bestVideoN = parseInt(formatsArr.filter((item) => item.indexOf('mp4') != -1 && item.indexOf('video only') != -1).pop().substring(0,3))
+
+    let audioVideoInfo = formatsArr.filter(item => item.indexOf('best') != -1)
+    let audioVideoN = formatsArr.filter(item => item.indexOf('best') != -1).map((item) => parseInt(item.substring(0,3)))[0]
 
 
-    console.log(audio)
-    console.log(bestVideo)
-    console.log(bestVideon)
+    let best = {
+        audioN,
+        bestVideoN,
+        bestVideoP,
+        bestVideoM,
+        audioVideoN
+    }
+
     
     
-    
-
-
-    return formatsArr
+    return best
 }
 
 
