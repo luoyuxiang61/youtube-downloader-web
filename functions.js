@@ -50,7 +50,7 @@ function download720(url) {
     return new Promise((resolve,reject) => {
         console.log(`*************** download the hd video now! ******************`);
             
-        exec("cd /var/ftp && youtube-dl -f best -o '%(title)s.%(ext)s' "+ url, (error,stdout,stderr) => {
+        exec("cd /var/ftp && youtube-dl --no-playlist -f best -o '%(title)s.%(ext)s' "+ url, (error,stdout,stderr) => {
             if(error) {
                 reject(error)
             }
@@ -73,7 +73,7 @@ function download1080({bestVideoN, audioN, url}) {
 
             console.log(`$$$$$$$$$$$$$$$$$$$ download the best video now! ****************`)
 
-            exec("cd /var/ftp && youtube-dl -f " + bestVideoN + "+" + audioN + " -o '%(title)s.%(ext)s' "+ url, (error,stdout,stderr) => {
+            exec("cd /var/ftp && youtube-dl --no-playlist -f " + bestVideoN + "+" + audioN + " -o '%(title)s.%(ext)s' "+ url, (error,stdout,stderr) => {
                 if(error) {
                     reject(error)
                 }
@@ -85,9 +85,29 @@ function download1080({bestVideoN, audioN, url}) {
     })
 }
 
+
+function downloadList(url) {
+    return new Promise((resolve,reject) => {
+        console.log(`###################### download the list now! ######################`)
+
+        exec("cd /var/ftp && youtube-dl --yes-playlist -f best -o '%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s' "+ url, (error,stdout,stderr) => {
+            if(error) {
+                reject(error)
+            }
+            if(stderr) {
+                reject(error)
+            }
+            resolve(stdout)
+        })
+
+    })
+}
+
+
 module.exports.getVideoInfo = getVideoInfo
 module.exports.download1080 = download1080
 module.exports.download720 = download720
+module.exports.downloadList = downloadList
 
 
 
