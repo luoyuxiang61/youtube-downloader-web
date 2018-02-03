@@ -10,12 +10,6 @@ firewall-cmd --permanent --zone=public --add-service=ftp
 firewall-cmd --reload
 systemctl start vsftpd.service
 
-
-#install node
-curl --silent --location https://rpm.nodesource.com/setup_8.x | sudo bash -
-sudo yum -y install nodejs
-npm install -g pm2
-
 #install ffmpeg
 yum -y install epel-release
 rpm --import http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro
@@ -23,9 +17,11 @@ rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-1.
 yum -y install ffmpeg ffmpeg-devel
 
 
-#install git 
-yum -y install git
-git clone https://github.com/luoyuxiang61/youtube-thunder.git
-cd youtube-thunder
-npm install
-pm2 start app.js
+
+#install node
+curl --silent --location https://rpm.nodesource.com/setup_8.x | sudo bash -
+sudo yum -y install nodejs
+npm install -g pm2
+
+
+
