@@ -2,7 +2,7 @@ const app = require('express')()
 const bodyParser = require('body-parser').json()
 app.use(bodyParser)
 
-const {downloadSingleVideo, getVideoInfo, download720, download1080, downloadList} = require('./functions')
+const {getVideoInfo, download720, download1080, downloadList} = require('./functions')
 
 app.get('/', (req,res) => {
     res.send('hello, world');

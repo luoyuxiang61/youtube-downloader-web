@@ -19,15 +19,11 @@ function getVideoInfo(url) {
 //convert formats infomation to array
 function convertFormats(stdout,url) {
     let formatsArr = stdout.split('\n').slice(5)
-    
     let audioN = formatsArr.filter((item) => item.indexOf('m4a') != -1 ).map((item) => parseInt(item.substring(0,3)))[0]
-
-   
     let bestVideoInfo = formatsArr.filter((item) => item.indexOf('mp4') != -1 && item.indexOf('video only') != -1).pop()
     let bestVideoP = bestVideoInfo.substr(35,5).trim()
     let bestVideoM = bestVideoInfo.substring(bestVideoInfo.length - 9).replace(/,/,' ').trim()
     let bestVideoN = parseInt(formatsArr.filter((item) => item.indexOf('mp4') != -1 && item.indexOf('video only') != -1).pop().substring(0,3))
-
     let audioVideoInfo = formatsArr.filter(item => item.indexOf('best') != -1)
     let audioVideoN = formatsArr.filter(item => item.indexOf('best') != -1).map((item) => parseInt(item.substring(0,3)))[0]
 
@@ -48,8 +44,7 @@ function convertFormats(stdout,url) {
 function download720(url) {
     
     return new Promise((resolve,reject) => {
-        console.log(`*************** download the hd video now! ******************`);
-            
+        console.log(`*************** download the hd video now! ******************`);   
         exec("cd /var/ftp && youtube-dl --no-playlist -f best -o '%(title)s.%(ext)s' "+ url, (error,stdout,stderr) => {
             if(error) {
                 reject(error)
@@ -70,9 +65,7 @@ function download720(url) {
 //download a video 
 function download1080({bestVideoN, audioN, url}) {
     return new Promise((resolve,reject) => {
-
-            console.log(`$$$$$$$$$$$$$$$$$$$ download the best video now! ****************`)
-
+            console.log(`$$$$$$$$$$$$$$$$$$$ download the best video now! $$$$$$$$$$$$$$$$$$$`)
             exec("cd /var/ftp && youtube-dl --no-playlist -f " + bestVideoN + "+" + audioN + " -o '%(title)s.%(ext)s' "+ url, (error,stdout,stderr) => {
                 if(error) {
                     reject(error)
@@ -89,7 +82,6 @@ function download1080({bestVideoN, audioN, url}) {
 function downloadList(url) {
     return new Promise((resolve,reject) => {
         console.log(`###################### download the list now! ######################`)
-
         exec("cd /var/ftp && youtube-dl --yes-playlist -f best -o '%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s' "+ url, (error,stdout,stderr) => {
             if(error) {
                 reject(error)
