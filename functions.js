@@ -11,9 +11,29 @@ function getVideoFormats(url) {
             if(stderr) {
                 reject(error)
             }
-            resolve(stdout)
+            resolve(convertFormats(stdout))
         })
     })
+}
+
+//convert formats infomation to array
+function convertFormats(text) {
+    let formatsArr = text.split('\n').slice(5)
+    
+    let audio = formatsArr.filter((item) => item.indexOf('m4a') != -1 ).map((item) => parseInt(item.substring(0,3)))[0]
+    let bestVideo = formatsArr.filter((item) => item.indexOf('mp4') != -1 && item.indexOf('video only') != -1).pop()
+    let bestVideon = parseInt(formatsArr.filter((item) => item.indexOf('mp4') != -1 && item.indexOf('video only') != -1).pop().substring(0,3))
+
+
+    console.log(audio)
+    console.log(bestVideo)
+    console.log(bestVideon)
+    
+    
+    
+
+
+    return formatsArr
 }
 
 
