@@ -23,7 +23,8 @@ app.post('/download720', (req,res) => {
 
 app.post('/download1080', (req,res) => {
 
-    download1080(req.body).then(result => res.send(result)).catch(err => res.send(err.toString()))
+    getVideoInfo(req.body.url).then(info => download1080(info).then(result => res.send(result)).catch(err => res.send(err.toString()))).catch(err => res.send(err.toString()))
+    
 })
 
 app.post('/downloadList', (req,res) => {
@@ -31,6 +32,8 @@ app.post('/downloadList', (req,res) => {
     downloadList(req.body.url).then(result => res.send(result)).catch(err => res.send(err.toString()))
 })
 
+
+//dangerous
 app.delete('/', (req,res) => {
 
     deleteAllVideos().then(value => res.send(value)).catch(err => res.send(err.toString()))
