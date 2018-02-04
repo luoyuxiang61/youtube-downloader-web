@@ -30,7 +30,6 @@ function convertFormats(stdout,url) {
     }
 }
 
-
 //download 720p
 function download720(url) {
     return new Promise((resolve,reject) => {
@@ -42,10 +41,6 @@ function download720(url) {
         })
     })
 }
-
-
-
-
 
 //download a video 
 function download1080({bestVideoN, audioN, url}) {
@@ -59,7 +54,6 @@ function download1080({bestVideoN, audioN, url}) {
     })
 }
 
-
 function downloadList(url) {
     return new Promise((resolve,reject) => {
         console.log(`###################### download the list now! ######################`)
@@ -71,8 +65,6 @@ function downloadList(url) {
 
     })
 }
-
-
 
 //dangerous function delete all videos on ftp server
 function deleteAllVideos() {
@@ -96,13 +88,7 @@ module.exports.deleteAllVideos = deleteAllVideos
 
 // downloadSingleVideo('https://youtu.be/lCGrVHUsXPo').then(value => console.log(value)).catch(err => console.log(err))
 
-
-
-
-
 // getVideoInfo('https://youtu.be/lCGrVHUsXPo').then(value => console.log(value.split('MiB'))).catch(err => console.log(err))
-
-
 
 // function changeDir(dir = '/home/yuxiang/mp4') {
 //     return new Promise((resolve,reject) => {
@@ -120,9 +106,6 @@ module.exports.deleteAllVideos = deleteAllVideos
 
 // changeDir().then(value => console.log(value)).catch(err => console.log('********error********',err))
 
-
-
-
 // exec('rm -rf /home/yuxiang/mp4/* && ls -l', (error,stdout,stderr) => {
 //     if (error) {
 //         console.error(`exec error: ${error}`);
@@ -132,7 +115,6 @@ module.exports.deleteAllVideos = deleteAllVideos
 //       console.log(`stderr: ${stderr}`);
 // })
 
-
 // exec('ls -l', (error, stdout, stderr) => {
 //   if (error) {
 //     console.error(`exec error: ${error}`);
@@ -141,5 +123,3 @@ module.exports.deleteAllVideos = deleteAllVideos
 //   console.log(`stdout: ${stdout}`);
 //   console.log(`stderr: ${stderr}`);
 // });
-
-
