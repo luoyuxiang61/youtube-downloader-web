@@ -4,7 +4,7 @@ const { exec } = require('child_process');
 //list all audio and video formats 
 function getVideoInfo(url) {
     return new Promise((resolve,reject) => {
-        exec('youtube-dl --list-formats  '+ url, (error,stdout,stderr) => {
+        exec(`youtube-dl --list-formats ${url}`, (error,stdout,stderr) => {
             if(error) {
                 reject(error)
             }
@@ -45,7 +45,7 @@ function download720(url) {
     
     return new Promise((resolve,reject) => {
         console.log(`*************** download the hd video now! ******************`);   
-        exec("cd /var/ftp && youtube-dl --no-playlist -f best -o '%(title)s.%(ext)s' "+ url, (error,stdout,stderr) => {
+        exec(`cd /var/ftp && youtube-dl --no-playlist -f best -o '%(title)s.%(ext)s' ${url}`, (error,stdout,stderr) => {
             if(error) {
                 reject(error)
             }
@@ -66,7 +66,7 @@ function download720(url) {
 function download1080({bestVideoN, audioN, url}) {
     return new Promise((resolve,reject) => {
             console.log(`$$$$$$$$$$$$$$$$$$$ download the best video now! $$$$$$$$$$$$$$$$$$$`)
-            exec("cd /var/ftp && youtube-dl --no-playlist -f " + bestVideoN + "+" + audioN + " -o '%(title)s.%(ext)s' "+ url, (error,stdout,stderr) => {
+            exec(`cd /var/ftp && youtube-dl --no-playlist -f " + bestVideoN + "+" + audioN + " -o '%(title)s.%(ext)s' ${url}`, (error,stdout,stderr) => {
                 if(error) {
                     reject(error)
                 }
@@ -82,7 +82,7 @@ function download1080({bestVideoN, audioN, url}) {
 function downloadList(url) {
     return new Promise((resolve,reject) => {
         console.log(`###################### download the list now! ######################`)
-        exec("cd /var/ftp && youtube-dl --yes-playlist -f best -o '%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s' "+ url, (error,stdout,stderr) => {
+        exec(`cd /var/ftp && youtube-dl --yes-playlist -f best -o '%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s' ${url}`, (error,stdout,stderr) => {
             if(error) {
                 reject(error)
             }
@@ -101,7 +101,7 @@ function downloadList(url) {
 function deleteAllVideos() {
     return new Promise((resolve,reject) => {
         console.log(`!!!!!!!!!!!!!!!!!!!!!!!Delete all the videos!!!!!!!!!!!!!!!!!!!!`)
-        exec("cd /var/ftp && pwd && rm -rf *", (error,stdout,stderr) => {
+        exec(`cd /var/ftp && pwd && rm -rf *`, (error,stdout,stderr) => {
             if(error) reject(error)
             if(stderr) reject(stderr)
             resolve(`${stdout} ok all the videos are deleted now , it's much more clean , you can download more videos haha`)
