@@ -96,11 +96,25 @@ function downloadList(url) {
 }
 
 
+
+//dangerous function delete all videos on ftp server
+function deleteAllVideos() {
+    return new Promise((resolve,reject) => {
+        console.log(`!!!!!!!!!!!!!!!!!!!!!!!Delete all the videos!!!!!!!!!!!!!!!!!!!!`)
+        exec("cd /var/ftp && pwd && rm -rf *", (error,stdout,stderr) => {
+            if(error) reject(error)
+            if(stderr) reject(stderr)
+            resolve(`${stdout} ok all the videos are deleted now , it's much more clean , you can download more videos haha`)
+        })
+    })
+}
+
+
 module.exports.getVideoInfo = getVideoInfo
 module.exports.download1080 = download1080
 module.exports.download720 = download720
 module.exports.downloadList = downloadList
-
+module.exports.deleteAllVideos = deleteAllVideos
 
 
 // downloadSingleVideo('https://youtu.be/lCGrVHUsXPo').then(value => console.log(value)).catch(err => console.log(err))
