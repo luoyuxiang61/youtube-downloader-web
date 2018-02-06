@@ -32,8 +32,8 @@ app.get('/download720Http', (req, res) => {
         .catch(err => res.send(err.toString()))
 })
 
-app.post('/download1080', (req, res) => {
-    getVideoInfo(req.body.url).then(info => download1080(info).then(result => res.send(result)).catch(err => res.send(err.toString()))).catch(err => res.send(err.toString()))
+app.post('/download1080Ftp', (req, res) => {
+    getVideoInfo(req.body.url).then(info => download1080(info).then(videoName => res.send(videoName)).catch(err => res.send(err.toString()))).catch(err => res.send(err.toString()))
 })
 
 app.post('/downloadList', (req, res) => {

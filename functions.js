@@ -59,7 +59,7 @@ function download1080({ bestVideoN, audioN, url }) {
         exec(`cd /var/ftp && youtube-dl --no-playlist -f ${bestVideoN}+${audioN} -o '%(title)s.%(ext)s' ${url}`, (error, stdout, stderr) => {
             if (error) reject(error)
             if (stderr) reject(stderr)
-            resolve(stdout)
+            resolve(getVideoName(stdout))
         })
     })
 }
