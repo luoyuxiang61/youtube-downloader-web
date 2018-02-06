@@ -80,7 +80,7 @@ function downloadList(url) {
 //dangerous function delete all videos on ftp server
 function deleteAllVideos() {
     return new Promise((resolve, reject) => {
-        exec(`cd /var/ftp && pwd && rm -rf *`, (error, stdout, stderr) => {
+        exec(`cd /var/ftp && rm -rf *`, (error, stdout, stderr) => {
             if (error) reject(error)
             if (stderr) reject(stderr)
             resolve(`${stdout} ok all the videos are deleted now , it's much more clean , you can download more videos haha`)
@@ -88,18 +88,13 @@ function deleteAllVideos() {
     })
 }
 
-function deleteOneVideo(name) {
-    // return new Promise((resolve, reject) => {
-    //     exec(`cd /var/ftp && pwd && rm -rf ${name}*`, (error, stdout, stderr) => {
-    //         if (error) reject(error)
-    //         if (stderr) reject(stderr)
-    //         resolve(`${name} is deleted successfully`)
-    //     })
-    // })
-    exec(`cd /var/ftp && pwd && rm -rf ${name}*`, (error, stdout, stderr) => {
-        if(stderr) console.log(stderr)
-        if(error) console.log(error)
-        console.log(stdout)
+function deleteOneVideo(videoName) {
+    return new Promise((resolve, reject) => {
+        exec(`cd /var/ftp && rm -rf ${videoName}`, (error, stdout, stderr) => {
+            if (error) reject(error)
+            if (stderr) reject(stderr)
+            resolve(`${videoName} is deleted successfully`)
+        })
     })
 }
 
