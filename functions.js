@@ -1,5 +1,5 @@
 const { exec } = require('child_process')
-const { crypto } = require('crypto')
+const crypto = require('crypto')
 
 //list all audio and video formats 
 function getVideoInfo(url) {
