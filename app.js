@@ -6,6 +6,11 @@ app.use(bodyParser)
 
 const { getVideoInfo, download720, download1080, downloadList, deleteAllVideos } = require('./functions')
 
+app.all('*', function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    next();
+});
+
 app.get('/', (req, res) => {
     res.send('hello, world');
 })
