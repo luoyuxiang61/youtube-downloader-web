@@ -24,7 +24,7 @@ app.post('/download720', (req, res) => {
 app.get('/download720Http', (req, res) => {
     download720(req.query.url).then(result => {
         let videoStream = fs.createReadStream(path.join('/var/ftp', result))
-        videoStream.pipe(res, { end: false })
+        videoStream.pipe(res, { end: true })
         videoStream.on('end', () => {
             deleteOneVideo(result)
         })
