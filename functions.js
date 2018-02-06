@@ -32,7 +32,8 @@ function convertFormats(stdout, url) {
 
 
 function getDownloadLink(stdout) {
-    return stdout.split('\n')[3].substring(23).trim()
+    let nameWithExt = stdout.split('\n')[3].substring(23).trim()
+    return nameWithExt.substr(0, nameWithExt.length - 5).trim()
 }
 
 
@@ -84,7 +85,7 @@ function deleteAllVideos() {
 
 function deleteOneVideo(name) {
     return new Promise((resolve, reject) => {
-        exec(`cd /var/ftp && pwd && rm -rf ${name}`, (error, stdout, stderr) => {
+        exec(`cd /var/ftp && pwd && rm -rf ${name.substr(0, )}`, (error, stdout, stderr) => {
             if (error) reject(error)
             if (stderr) reject(stderr)
             resolve(`${name} is deleted successfully`)
