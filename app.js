@@ -21,7 +21,7 @@ app.post('/download720', (req, res) => {
 })
 
 app.post('/download720Http', (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.header('Access-Control-Allow-Origin', '*')
     download720(req.body.url).then(result => {
         let videoStream = fs.createReadStream(path.join('/var/ftp', result))
         videoStream.pipe(res)
