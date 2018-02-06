@@ -1,4 +1,5 @@
 const { exec } = require('child_process')
+const { crypto } = require('crypto')
 
 //list all audio and video formats 
 function getVideoInfo(url) {
@@ -31,20 +32,20 @@ function convertFormats(stdout, url) {
 }
 
 
-function getDownloadLink(stdout) {
+function getVideoName(stdout) {
     let nameWithExt = stdout.split('\n')[3].substring(23).trim()
-    return nameWithExt.substr(0, nameWithExt.length - 5).trim()
+    return nameWithExt.substr(0, nameWithExt.length - 4).trim()
 }
 
 
 //download 720p
 function download720(url) {
-    let time = new Date().toLocaleTimeString()
+    let hashName = crypto.createHmac('sha256', url).update('i love nodejs').digest('hex')
     return new Promise((resolve, reject) => {
-        exec(`cd /var/ftp && youtube-dl --no-playlist -f best -o '${time}.%(ext)s' ${url}`, (error, stdout, stderr) => {
+        exec(`cd /var/ftp && youtube-dl --no-playlist -f best -o '${hashName}.%(ext)s' ${url}`, (error, stdout, stderr) => {
             if (error) reject(error)
             if (stderr) reject(stderr)
-            resolve(getDownloadLink(stdout))
+            resolve(getVideoName(stdout))
         })
     })
 }
