@@ -33,8 +33,11 @@ function convertFormats(stdout, url) {
 
 
 function getVideoName(stdout) {
-    let nameWithExt = stdout.split('\n')[3].substring(23).trim()
-    return nameWithExt.substr(0, nameWithExt.length - 4).trim()
+    let ori = stdout.split('\n')[3]
+    return {
+        a: ori,
+        b: ori.substring(23).trim()
+    }
 }
 
 
