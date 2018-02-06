@@ -17,8 +17,8 @@ app.post('/info', (req, res) => {
     })
 })
 
-app.post('/download720', (req, res) => {
-    download720(req.body.url).then(videoName => {res.send(videoName);deleteOneVideo(videoName)} ).catch(err => res.send(err.toString()))
+app.post('/download720Ftp', (req, res) => {
+    download720(req.body.url).then(videoName => res.send(videoName)).catch(err => res.send(err.toString()))
 })
 
 app.get('/download720Http', (req, res) => {
