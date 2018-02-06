@@ -84,12 +84,17 @@ function deleteAllVideos() {
 }
 
 function deleteOneVideo(name) {
-    return new Promise((resolve, reject) => {
-        exec(`cd /var/ftp && pwd && rm -rf ${name}*`, (error, stdout, stderr) => {
-            if (error) reject(error)
-            if (stderr) reject(stderr)
-            resolve(`${name} is deleted successfully`)
-        })
+    // return new Promise((resolve, reject) => {
+    //     exec(`cd /var/ftp && pwd && rm -rf ${name}*`, (error, stdout, stderr) => {
+    //         if (error) reject(error)
+    //         if (stderr) reject(stderr)
+    //         resolve(`${name} is deleted successfully`)
+    //     })
+    // })
+    exec(`cd /var/ftp && pwd && rm -rf ${name}*`, (error, stdout, stderr) => {
+        if(stderr) console.log(stderr)
+        if(error) console.log(error)
+        console.log(stdout)
     })
 }
 
