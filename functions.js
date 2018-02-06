@@ -39,8 +39,9 @@ function getDownloadLink(stdout) {
 
 //download 720p
 function download720(url) {
+    let time = new Date().toLocaleTimeString()
     return new Promise((resolve, reject) => {
-        exec(`cd /var/ftp && youtube-dl --no-playlist -f best -o '%(title)s.%(ext)s' ${url}`, (error, stdout, stderr) => {
+        exec(`cd /var/ftp && youtube-dl --no-playlist -f best -o '${time}.%(ext)s' ${url}`, (error, stdout, stderr) => {
             if (error) reject(error)
             if (stderr) reject(stderr)
             resolve(getDownloadLink(stdout))
