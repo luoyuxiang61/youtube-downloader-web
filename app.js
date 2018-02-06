@@ -1,9 +1,10 @@
 const app = require('express')()
 const bodyParser = require('body-parser').json()
+const cors = require('cors')
 const path = require('path')
 const fs = require('fs')
 app.use(bodyParser)
-
+app.use(cors())
 const { getVideoInfo, download720, download1080, downloadList, deleteAllVideos } = require('./functions')
 
 app.get('/', (req, res) => {
@@ -21,7 +22,6 @@ app.post('/download720', (req, res) => {
 })
 
 app.post('/download720Http', (req, res) => {
-    res.header('Access-Control-Allow-Origin', '*')
     download720(req.body.url).then(result => {
         let videoStream = fs.createReadStream(path.join('/var/ftp', result))
         videoStream.pipe(res)
