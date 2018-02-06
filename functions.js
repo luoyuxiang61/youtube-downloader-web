@@ -32,7 +32,7 @@ function convertFormats(stdout, url) {
 
 
 function getDownloadLink(stdout) {
-    return stdout.split('\n')[3].substring(11)
+    return stdout.split('\n')[3].substring(23).trim()
 }
 
 
