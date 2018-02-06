@@ -30,6 +30,12 @@ function convertFormats(stdout, url) {
     }
 }
 
+
+function getDownloadLink(stdout) {
+    return stdout.split('\n')[3].substring(11)
+}
+
+
 //download 720p
 function download720(url) {
     return new Promise((resolve, reject) => {
@@ -37,12 +43,14 @@ function download720(url) {
         exec(`cd /var/ftp && youtube-dl --no-playlist -f best -o '%(title)s.%(ext)s' ${url}`, (error, stdout, stderr) => {
             if (error) reject(error)
             if (stderr) reject(stderr)
-            resolve(stdout)
+            resolve(getDownloadLink(stdout))
         })
     })
 }
 
-//download a video 
+
+
+//download 1080p ## warning! it's very slow ##
 function download1080({ bestVideoN, audioN, url }) {
     return new Promise((resolve, reject) => {
         console.log(`$$$$$$$$$$$$$$$$$$$ download the best video now! $$$$$$$$$$$$$$$$$$$`)
@@ -56,20 +64,17 @@ function download1080({ bestVideoN, audioN, url }) {
 
 function downloadList(url) {
     return new Promise((resolve, reject) => {
-        console.log(`###################### download the list now! ######################`)
         exec(`cd /var/ftp && youtube-dl --yes-playlist -f best -o '%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s' ${url}`, (error, stdout, stderr) => {
             if (error) reject(error)
             if (stderr) reject(stderr)
             resolve(stdout)
         })
-
     })
 }
 
 //dangerous function delete all videos on ftp server
 function deleteAllVideos() {
     return new Promise((resolve, reject) => {
-        console.log(`!!!!!!!!!!!!!!!!!!!!!!!Delete all the videos!!!!!!!!!!!!!!!!!!!!`)
         exec(`cd /var/ftp && pwd && rm -rf *`, (error, stdout, stderr) => {
             if (error) reject(error)
             if (stderr) reject(stderr)
@@ -87,39 +92,3 @@ module.exports.deleteAllVideos = deleteAllVideos
 
 
 // downloadSingleVideo('https://youtu.be/lCGrVHUsXPo').then(value => console.log(value)).catch(err => console.log(err))
-
-// getVideoInfo('https://youtu.be/lCGrVHUsXPo').then(value => console.log(value.split('MiB'))).catch(err => console.log(err))
-
-// function changeDir(dir = '/home/yuxiang/mp4') {
-//     return new Promise((resolve,reject) => {
-//         exec('cd ' + dir + ' && ls && pwd && youtube-dl ', (error,stdout,stderr) => {
-//             if(error) {
-//                 reject(error)
-//             }
-//             if(stderr) {
-//                 reject(stderr)
-//             }
-//             resolve(stdout)
-//         })
-//     })
-// }
-
-// changeDir().then(value => console.log(value)).catch(err => console.log('********error********',err))
-
-// exec('rm -rf /home/yuxiang/mp4/* && ls -l', (error,stdout,stderr) => {
-//     if (error) {
-//         console.error(`exec error: ${error}`);
-//         return;
-//       }
-//       console.log(`stdout: ${stdout}`);
-//       console.log(`stderr: ${stderr}`);
-// })
-
-// exec('ls -l', (error, stdout, stderr) => {
-//   if (error) {
-//     console.error(`exec error: ${error}`);
-//     return;
-//   }
-//   console.log(`stdout: ${stdout}`);
-//   console.log(`stderr: ${stderr}`);
-// });
