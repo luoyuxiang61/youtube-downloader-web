@@ -1,6 +1,7 @@
 const app = require('express')()
 const bodyParser = require('body-parser').json()
 const path = require('path')
+const fs = require('fs')
 app.use(bodyParser)
 
 const { getVideoInfo, download720, download1080, downloadList, deleteAllVideos } = require('./functions')
@@ -17,6 +18,14 @@ app.post('/info', (req, res) => {
 
 app.post('/download720', (req, res) => {
     download720(req.body.url).then(result => res.send(result)).catch(err => res.send(err.toString()))
+})
+
+app.post('/download720Http', (req, res) => {
+    download720(req.body.url).then(result => {
+        let videoStream = fs.createReadStream(path.join('/var/ftp', result))
+        videoStream.pipe(res)
+    })
+        .catch(err => res.send(err.toString()))
 })
 
 app.post('/download1080', (req, res) => {
