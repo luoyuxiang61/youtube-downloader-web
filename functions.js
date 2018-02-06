@@ -39,7 +39,6 @@ function getDownloadLink(stdout) {
 //download 720p
 function download720(url) {
     return new Promise((resolve, reject) => {
-        console.log(`*************** download the hd video now! ******************`);
         exec(`cd /var/ftp && youtube-dl --no-playlist -f best -o '%(title)s.%(ext)s' ${url}`, (error, stdout, stderr) => {
             if (error) reject(error)
             if (stderr) reject(stderr)
@@ -83,12 +82,23 @@ function deleteAllVideos() {
     })
 }
 
+function deleteOneVideo(name) {
+    return new Promise((resolve, reject) => {
+        exec(`cd /var/ftp && pwd && rm -rf ${name}`, (error, stdout, stderr) => {
+            if (error) reject(error)
+            if (stderr) reject(stderr)
+            resolve(`${name} is deleted successfully`)
+        })
+    })
+}
+
 
 module.exports.getVideoInfo = getVideoInfo
 module.exports.download1080 = download1080
 module.exports.download720 = download720
 module.exports.downloadList = downloadList
 module.exports.deleteAllVideos = deleteAllVideos
+module.exports.deleteOneVideo = deleteOneVideo
 
 
 // downloadSingleVideo('https://youtu.be/lCGrVHUsXPo').then(value => console.log(value)).catch(err => console.log(err))
