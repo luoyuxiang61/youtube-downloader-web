@@ -6,11 +6,6 @@ app.use(bodyParser)
 
 const { getVideoInfo, download720, download1080, downloadList, deleteAllVideos } = require('./functions')
 
-app.all('*', function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    next();
-});
-
 app.get('/', (req, res) => {
     res.send('hello, world');
 })
@@ -26,6 +21,7 @@ app.post('/download720', (req, res) => {
 })
 
 app.post('/download720Http', (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*')
     download720(req.body.url).then(result => {
         let videoStream = fs.createReadStream(path.join('/var/ftp', result))
         videoStream.pipe(res)
