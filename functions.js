@@ -1,6 +1,12 @@
 const { exec } = require('child_process')
 const crypto = require('crypto')
 
+//decode vide url
+function decodeUrl(url) {
+    return url.split(',').map(x => String.fromCodePoint(parseInt(x))).reduce((pre, cur) => pre + cur)
+}
+
+
 //list all audio and video formats 
 function getVideoInfo(url) {
     return new Promise((resolve, reject) => {
@@ -103,6 +109,7 @@ module.exports.download720 = download720
 module.exports.downloadList = downloadList
 module.exports.deleteAllVideos = deleteAllVideos
 module.exports.deleteOneVideo = deleteOneVideo
+module.exports.decodeUrl = decodeUrl
 
 
 // downloadSingleVideo('https://youtu.be/lCGrVHUsXPo').then(value => console.log(value)).catch(err => console.log(err))

@@ -5,7 +5,7 @@ const path = require('path')
 const fs = require('fs')
 app.use(bodyParser)
 app.use(cors())
-const { getVideoInfo, download720, download1080, downloadList, deleteAllVideos, deleteOneVideo } = require('./functions')
+const { getVideoInfo, download720, download1080, downloadList, deleteAllVideos, deleteOneVideo, decodeUrl } = require('./functions')
 
 app.get('/', (req, res) => {
     res.send('hello, world');
@@ -22,7 +22,7 @@ app.post('/download720Ftp', (req, res) => {
 })
 
 app.get('/download720Http', (req, res) => {
-    download720(req.query.url).then(videoName => {
+    download720(decodeUrl(req.query.url)).then(videoName => {
         let videoStream = fs.createReadStream(path.join('/var/ftp', videoName))
         videoStream.pipe(res, { end: true })
         videoStream.on('end', () => {
