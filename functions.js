@@ -43,6 +43,10 @@ function getVideoName(stdout) {
     return videoName
 }
 
+function getVideoSize(stdout) {
+    let arr =  stdout.split('\n')
+    return arr[arr.length - 1]
+}
 
 //download 720p
 function download720(url) {
@@ -52,7 +56,7 @@ function download720(url) {
             if (error) reject(error)
             if (stderr) reject(stderr)
             // resolve(getVideoName(stdout))
-            resolve(stdout)
+            resolve(getVideoSize(stdout))
         })
     })
 }
