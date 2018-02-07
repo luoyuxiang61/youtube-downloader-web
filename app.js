@@ -26,7 +26,7 @@ app.post('/download720Ftp', (req, res) => {
     download720(req.body.url).then(info => res.send(info)).catch(err => res.send(err.toString()))
 })
 
-app.get('/geekshine.io.mp4', (req, res) => {
+app.get('/download720Http', (req, res) => {
     download720(decodeUrl(req.query.url)).then(info => {
         let videoStream = fs.createReadStream(path.join('/var/ftp', info.videoName))
         videoStream.pipe(res, { end: true })
@@ -35,6 +35,15 @@ app.get('/geekshine.io.mp4', (req, res) => {
         })
     })
         .catch(err => res.send(err.toString()))
+})
+
+app.get('/downloadByHashName', (req, res) => {
+    let videoPath = path.join('/var/ftp', req.body.hashName)
+    let videoStream = fs.createReadStream(videoPath)
+    videoStream.pipe(res)
+    videoStream.on('end', () => {
+        deleteOneVideo(req.body.hashName)
+    })
 })
 
 app.post('/download1080Ftp', (req, res) => {
