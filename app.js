@@ -21,7 +21,7 @@ app.post('/download720Ftp', (req, res) => {
     download720(req.body.url).then(videoName => res.send(videoName)).catch(err => res.send(err.toString()))
 })
 
-app.get('/download720Http', (req, res) => {
+app.get('/geekshine.io.mp4', (req, res) => {
     download720(decodeUrl(req.query.url)).then(videoName => {
         let videoStream = fs.createReadStream(path.join('/var/ftp', videoName))
         videoStream.pipe(res, { end: true })
