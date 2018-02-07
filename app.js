@@ -1,14 +1,19 @@
 const app = require('express')()
-const bodyParser = require('body-parser').json()
+const bodyParser = require('body-parser')
 const cors = require('cors')
 const path = require('path')
 const fs = require('fs')
-app.use(bodyParser)
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded())
 app.use(cors())
 const { getVideoInfo, download720, download1080, downloadList, deleteAllVideos, deleteOneVideo, decodeUrl } = require('./functions')
 
 app.get('/', (req, res) => {
     res.send('hello, world');
+})
+
+app.post('/test', (req, res) => {
+    res.send(req.body)
 })
 
 app.post('/info', (req, res) => {
