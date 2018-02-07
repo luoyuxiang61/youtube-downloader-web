@@ -44,7 +44,7 @@ function getVideoName(stdout) {
 }
 
 function getVideoSize(stdout) {
-    let size = stdout.substr(stdout.indexOf('100%'))
+    let size = stdout.substr(stdout.indexOf('100%')+7,11)
     return size
 }
 
