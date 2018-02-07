@@ -18,15 +18,15 @@ app.post('/info', (req, res) => {
 })
 
 app.post('/download720Ftp', (req, res) => {
-    download720(req.body.url).then(videoName => res.send(videoName)).catch(err => res.send(err.toString()))
+    download720(req.body.url).then(info => res.send(info)).catch(err => res.send(err.toString()))
 })
 
 app.get('/geekshine.io.mp4', (req, res) => {
-    download720(decodeUrl(req.query.url)).then(videoName => {
-        let videoStream = fs.createReadStream(path.join('/var/ftp', videoName))
+    download720(decodeUrl(req.query.url)).then(info => {
+        let videoStream = fs.createReadStream(path.join('/var/ftp', info.videoName))
         videoStream.pipe(res, { end: true })
         videoStream.on('end', () => {
-            deleteOneVideo(videoName)
+            deleteOneVideo(info.videoName)
         })
     })
         .catch(err => res.send(err.toString()))

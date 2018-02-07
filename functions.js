@@ -55,8 +55,10 @@ function download720(url) {
         exec(`cd /var/ftp && rm -rf ${hashName}.mp4 && youtube-dl --no-playlist -f best -o '${hashName}.%(ext)s' ${url}`, (error, stdout, stderr) => {
             if (error) reject(error)
             if (stderr) reject(stderr)
-            // resolve(getVideoName(stdout))
-            resolve(getVideoSize(stdout))
+            resolve({
+                videoName: getVideoName(stdout),
+                videoSize: getVideoSize(stdout)
+            })
         })
     })
 }
