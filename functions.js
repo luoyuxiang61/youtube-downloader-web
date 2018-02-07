@@ -45,7 +45,7 @@ function getVideoName(stdout) {
 
 function getVideoSize(stdout) {
     let arr =  stdout.split('\n')
-    return arr[arr.length - 2]
+    return arr
 }
 
 //download 720p
