@@ -1,5 +1,5 @@
-# youtube-ftp-thunder
-make it possible to download youtube video by thunder and ftp client
+# youtube-downloader
+make it possible to download youtube video by http and ftp client
 
 # installation
 git clone https://github.com/luoyuxiang61/youtube-ftp-thunder.git
