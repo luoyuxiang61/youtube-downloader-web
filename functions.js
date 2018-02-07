@@ -56,6 +56,7 @@ function download720(url) {
             if (error) reject(error)
             if (stderr) reject(stderr)
             // resolve(getVideoName(stdout))
+            console.log('*********'+getVideoSize(stdout))
             resolve(getVideoSize(stdout))
         })
     })
