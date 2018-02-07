@@ -48,7 +48,7 @@ function getVideoName(stdout) {
 function download720(url) {
     let hashName = crypto.createHmac('sha256', url).update('i love nodejs').digest('hex')
     return new Promise((resolve, reject) => {
-        exec(`cd /var/ftp && youtube-dl --no-playlist -f best -o '${hashName}.%(ext)s' ${url}`, (error, stdout, stderr) => {
+        exec(`cd /var/ftp && rm -rf ${hashName}.mp4 && youtube-dl --no-playlist -f best -o '${hashName}.%(ext)s' ${url}`, (error, stdout, stderr) => {
             if (error) reject(error)
             if (stderr) reject(stderr)
             resolve(getVideoName(stdout))
