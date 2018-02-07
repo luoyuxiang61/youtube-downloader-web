@@ -38,11 +38,11 @@ app.get('/download720Http', (req, res) => {
 })
 
 app.get('/downloadByHashName', (req, res) => {
-    let videoPath = path.join('/var/ftp', req.body.hashName)
+    let videoPath = path.join('/var/ftp', req.query.hashName)
     let videoStream = fs.createReadStream(videoPath)
     videoStream.pipe(res)
     videoStream.on('end', () => {
-        deleteOneVideo(req.body.hashName)
+        deleteOneVideo(req.query.hashName)
     })
 })
 
