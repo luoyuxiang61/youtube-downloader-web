@@ -49,6 +49,16 @@ function getVideoSize(stdout) {
 }
 
 
+function getRealUrl(url) {
+    return new Promise((resolve,reject) => {
+        exec(`youtube-dl -f best -g ${url}`, (error,stdout,stderr) => {
+            if (error) reject(error)
+            if (stderr) reject(stderr)
+            resolve(stdout)
+        })
+    })
+}
+
 
 
 //download 720p
@@ -121,6 +131,7 @@ module.exports.downloadList = downloadList
 module.exports.deleteAllVideos = deleteAllVideos
 module.exports.deleteOneVideo = deleteOneVideo
 module.exports.decodeUrl = decodeUrl
+module.exports.getRealUrl = getRealUrl
 
 
 // downloadSingleVideo('https://youtu.be/lCGrVHUsXPo').then(value => console.log(value)).catch(err => console.log(err))

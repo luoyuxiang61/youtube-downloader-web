@@ -3,10 +3,11 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const path = require('path')
 const fs = require('fs')
+const request = require('request');
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded())
 app.use(cors())
-const { getVideoInfo, download720, download1080, downloadList, deleteAllVideos, deleteOneVideo, decodeUrl } = require('./functions')
+const { getVideoInfo, download720, download1080, downloadList, deleteAllVideos, deleteOneVideo, decodeUrl, getRealUrl } = require('./functions')
 
 app.get('/', (req, res) => {
     res.send('hello, world');
@@ -27,14 +28,13 @@ app.post('/download720Ftp', (req, res) => {
 })
 
 app.get('/download720Http', (req, res) => {
-    download720(decodeUrl(req.query.url)).then(info => {
-        let videoStream = fs.createReadStream(path.join('/var/ftp', info.videoName))
-        videoStream.pipe(res, { end: true })
-        videoStream.on('end', () => {
-            deleteOneVideo(info.videoName)
-        })
-    })
-        .catch(err => res.send(err.toString()))
+    async function download720Http(url) {
+        let realUrl = await getRealUrl(decodeUrl(url))
+        request(realUrl).pipe(res)
+    }
+
+    download720Http(req.query.url)
+
 })
 
 app.get('/downloadByHashName', (req, res) => {
