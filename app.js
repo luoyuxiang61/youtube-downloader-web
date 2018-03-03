@@ -22,8 +22,8 @@ app.post('/info', (req, res) => {
     })
 })
 
-app.get('/download720Ftp', (req, res) => {
-    download720(decodeUrl(req.query.url)).then(info => res.send(info)).catch(err => res.send(err.toString()))
+app.post('/download720Ftp', (req, res) => {
+    download720(req.body.url).then(info => res.send(info)).catch(err => res.send(err.toString()))
 })
 
 app.get('/download720Http', (req, res) => {
