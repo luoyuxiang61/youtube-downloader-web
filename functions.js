@@ -60,7 +60,8 @@ function download720(url) {
             if (stderr) reject(stderr)
             resolve({
                 videoName: getVideoName(stdout),
-                videoSize: getVideoSize(stdout)
+                videoSize: getVideoSize(stdout),
+                info: stdout
             })
         })
     })
