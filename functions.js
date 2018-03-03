@@ -39,7 +39,7 @@ function convertFormats(stdout, url) {
 
 
 function getVideoName(stdout) {
-    let videoName = stdout.split('\n')[3].substring(23).trim()
+    let videoName = stdout.split('\n').filter(x => x.indexOf('Destination') !== -1)[0].substring(23).trim()
     return videoName
 }
 
