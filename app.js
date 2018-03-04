@@ -7,7 +7,7 @@ const request = require('request');
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded())
 app.use(cors())
-const { getVideoInfo, download720, download1080, downloadList, deleteAllVideos, deleteOneVideo, decodeUrl, getRealUrl } = require('./functions')
+const { getVideoInfo, download720, download1080, downloadList, deleteAllVideos, deleteOneVideo, decodeUrl, getRealUrl, getVideoInfo2 } = require('./functions')
 
 app.get('/', (req, res) => {
     res.send('hello, world');
@@ -23,6 +23,12 @@ app.post('/info', (req, res) => {
     })
 })
 
+app.post('/info2', (req, res) => {
+    getVideoInfo2(req.body.url).then((x) => {
+        res.send(x)
+    })
+})
+
 app.post('/download720Ftp', (req, res) => {
     download720(req.body.url).then(info => res.send(info)).catch(err => res.send(err.toString()))
 })
@@ -34,7 +40,6 @@ app.get('/download720Http', (req, res) => {
     }
 
     download720Http(req.query.url)
-
 })
 
 app.get('/downloadByHashName', (req, res) => {

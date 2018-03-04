@@ -18,6 +18,19 @@ function getVideoInfo(url) {
     })
 }
 
+//get more info to show in the website
+async function getVideoInfo2(url) {
+    let title = await new Promise((resolve,reject) => {
+        exec(`youtube-dl -e ${url}`, (error, stdout, stderr) => {
+            if (error) reject(error)
+            if (stderr) reject(error)
+            resolve(stdout)
+        })
+    })
+
+    return title
+}
+
 //convert formats infomation to array
 function convertFormats(stdout, url) {
     let formatsArr = stdout.split('\n').slice(5)
@@ -132,6 +145,7 @@ module.exports.deleteAllVideos = deleteAllVideos
 module.exports.deleteOneVideo = deleteOneVideo
 module.exports.decodeUrl = decodeUrl
 module.exports.getRealUrl = getRealUrl
+module.exports.getVideoInfo2 = getVideoInfo2
 
 
 // downloadSingleVideo('https://youtu.be/lCGrVHUsXPo').then(value => console.log(value)).catch(err => console.log(err))
