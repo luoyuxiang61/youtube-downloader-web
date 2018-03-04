@@ -20,7 +20,7 @@ function getVideoInfo(url) {
 
 //get more info to show in the website
 async function getVideoInfo2(url) {
-    let title = await new Promise((resolve,reject) => {
+    let titleP = new Promise((resolve,reject) => {
         exec(`youtube-dl -e ${url}`, (error, stdout, stderr) => {
             if (error) reject(error)
             if (stderr) reject(error)
@@ -28,7 +28,29 @@ async function getVideoInfo2(url) {
         })
     })
 
-    return title
+    let thumbnailP = new Promise((resolve,reject) => {
+        exec(`youtube-dl --get-thumbnail ${url}`, (error, stdout, stderr) => {
+            if (error) reject(error)
+            if (stderr) reject(error)
+            resolve(stdout)
+        })
+    })
+
+    let descriptionP = new Promise((resolve, reject) => {
+        exec(`youtube-dl --get-description ${url}`, (error, stdout, stderr) => {
+            if (error) reject(error)
+            if (stderr) reject(error)
+            resolve(stdout)
+        })   
+    })
+
+    let [title, thumbnail, description] = await Promise.all([titleP, thumbnailP, descriptionP])
+
+    return JSON.stringify({
+        title,
+        thumbnail,
+        description
+    })
 }
 
 //convert formats infomation to array
