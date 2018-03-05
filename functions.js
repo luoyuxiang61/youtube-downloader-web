@@ -54,7 +54,7 @@ async function getVideoInfo2(url) {
             if (stderr) reject(stderr)
             resolve('ok')
         })
-    })
+    }).catch(e => console.log(e))
 
     // return JSON.stringify({
     //     title,
