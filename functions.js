@@ -49,25 +49,19 @@ async function getVideoInfo2(url) {
     let imgHashName = crypto.createHmac('sha256', thumbnail).update('i love nodejs').digest('hex').substr(2, 10) + '.jpg'
 
     await new Promise((resolve, reject) => {
-        exec(`cd /root/imgs && wget -c ${thumbnail} -O ${imgHashName}`, (error, stdout, stderr) => {
+        exec(`cd /root/imgs && rm -f * && wget -c ${thumbnail} -O ${imgHashName}`, (error, stdout, stderr) => {
             if (error) reject(error)
             if (stderr) reject(stderr)
             resolve('ok')
         })
     }).catch(e => console.log(e))
 
-    // return JSON.stringify({
-    //     title,
-    //     thumbnail,
-    //     imgHashName,
-    //     description
-    // })
-    console.log(JSON.stringify({
+    return JSON.stringify({
         title,
         thumbnail,
         imgHashName,
         description
-    }))
+    })
 }
 
 //convert formats infomation to array
