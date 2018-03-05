@@ -30,7 +30,7 @@ app.post('/info2', (req, res) => {
 })
 
 app.get('/imgCdn', (req, res) => {
-    res.sendFile(path.join('/root', `${req.query.imgHashName}`))
+    res.sendFile(path.join('/root/imgs', `${req.query.imgHashName}`))
 })
 
 app.post('/download720Ftp', (req, res) => {
