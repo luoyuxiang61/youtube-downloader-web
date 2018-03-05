@@ -52,16 +52,22 @@ async function getVideoInfo2(url) {
         exec(`cd /root/imgs && wget -c ${thumbnail} -O ${imgHashName}`, (error, stdout, stderr) => {
             if (error) reject(error)
             if (stderr) reject(stderr)
-            resolve(stdout)
+            resolve('ok')
         })
     })
 
-    return JSON.stringify({
+    // return JSON.stringify({
+    //     title,
+    //     thumbnail,
+    //     imgHashName,
+    //     description
+    // })
+    console.log(JSON.stringify({
         title,
         thumbnail,
         imgHashName,
         description
-    })
+    }))
 }
 
 //convert formats infomation to array
