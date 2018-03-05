@@ -29,6 +29,10 @@ app.post('/info2', (req, res) => {
     })
 })
 
+app.get('/imgCdn', (req, res) => {
+    res.sendFile(path.parse('/root/11.jpg'))
+})
+
 app.post('/download720Ftp', (req, res) => {
     download720(req.body.url).then(info => res.send(info)).catch(err => res.send(err.toString()))
 })
