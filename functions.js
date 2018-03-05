@@ -12,7 +12,7 @@ function getVideoInfo(url) {
     return new Promise((resolve, reject) => {
         exec(`youtube-dl --list-formats ${url}`, (error, stdout, stderr) => {
             if (error) reject(error)
-            if (stderr) reject(error)
+            if (stderr) reject(stderr)
             resolve(convertFormats(stdout, url))
         })
     })
@@ -20,35 +20,46 @@ function getVideoInfo(url) {
 
 //get more info to show in the website
 async function getVideoInfo2(url) {
-    let titleP = new Promise((resolve,reject) => {
+    let titleP = new Promise((resolve, reject) => {
         exec(`youtube-dl -e ${url}`, (error, stdout, stderr) => {
             if (error) reject(error)
-            if (stderr) reject(error)
+            if (stderr) reject(stderr)
             resolve(stdout)
         })
     })
 
-    let thumbnailP = new Promise((resolve,reject) => {
+    let thumbnailP = new Promise((resolve, reject) => {
         exec(`youtube-dl --get-thumbnail ${url}`, (error, stdout, stderr) => {
             if (error) reject(error)
-            if (stderr) reject(error)
-            resolve(stdout)
+            if (stderr) reject(stderr)
+            resolve(stdout.substr(0, stdout.length - 1))
         })
     })
 
     let descriptionP = new Promise((resolve, reject) => {
         exec(`youtube-dl --get-description ${url}`, (error, stdout, stderr) => {
             if (error) reject(error)
-            if (stderr) reject(error)
+            if (stderr) reject(stderr)
             resolve(stdout)
-        })   
+        })
     })
 
     let [title, thumbnail, description] = await Promise.all([titleP, thumbnailP, descriptionP])
 
+    let imgHashName = crypto.createHmac('sha256', thumbnail).update('i love nodejs').digest('hex') + '.jpg'
+
+    await new Promise((resolve, reject) => {
+        exec(`cd /root/imgs && wget -c ${thumbnail} -O ${hashName}`, (error, stdout, stderr) => {
+            if (error) reject(error)
+            if (stderr) reject(stderr)
+            resolve('ok')
+        })
+    })
+
     return JSON.stringify({
         title,
         thumbnail,
+        imgHashName,
         description
     })
 }
@@ -79,14 +90,14 @@ function getVideoName(stdout) {
 }
 
 function getVideoSize(stdout) {
-    let size = stdout.substr(stdout.indexOf('100%')+7,9)
-    return parseFloat(size.trim())+' '
+    let size = stdout.substr(stdout.indexOf('100%') + 7, 9)
+    return parseFloat(size.trim()) + ' '
 }
 
 
 function getRealUrl(url) {
-    return new Promise((resolve,reject) => {
-        exec(`youtube-dl -f best -g ${url}`, (error,stdout,stderr) => {
+    return new Promise((resolve, reject) => {
+        exec(`youtube-dl -f best -g ${url}`, (error, stdout, stderr) => {
             if (error) reject(error)
             if (stderr) reject(stderr)
             resolve(stdout)
