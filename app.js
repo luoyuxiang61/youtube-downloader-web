@@ -30,7 +30,7 @@ app.post('/info2', (req, res) => {
 })
 
 app.get('/imgCdn', (req, res) => {
-    res.sendFile(path.parse('/root/11.jpg'))
+    res.sendFile(path.join('/root', '11.jpg'))
 })
 
 app.post('/download720Ftp', (req, res) => {
