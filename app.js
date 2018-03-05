@@ -8,6 +8,7 @@ app.use(bodyParser.urlencoded())
 const { getVideoInfo, download720, download1080, downloadList, deleteAllVideos, deleteOneVideo, decodeUrl, getRealUrl, getVideoInfo2 } = require('./functions')
 
 app.get('/', (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*')
     res.send('hello, world');
 })
 
