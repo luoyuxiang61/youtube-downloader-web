@@ -1,12 +1,10 @@
 const app = require('express')()
 const bodyParser = require('body-parser')
-const cors = require('cors')
 const path = require('path')
 const fs = require('fs')
 const request = require('request');
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded())
-app.use(cors())
 const { getVideoInfo, download720, download1080, downloadList, deleteAllVideos, deleteOneVideo, decodeUrl, getRealUrl, getVideoInfo2 } = require('./functions')
 
 app.get('/', (req, res) => {
