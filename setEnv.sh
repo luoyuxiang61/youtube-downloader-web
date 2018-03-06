@@ -6,6 +6,8 @@ sudo chmod a+rx /usr/local/bin/youtube-dl
 yum -y install vsftpd
 firewall-cmd --zone=public --add-port=21/tcp --permanent
 firewall-cmd --zone=public --add-port=3000/tcp --permanent
+firewall-cmd --zone=public --add-port=443/tcp --permanent
+firewall-cmd --zone=public --add-port=80/tcp --permanent
 firewall-cmd --permanent --zone=public --add-service=ftp
 firewall-cmd --reload
 systemctl start vsftpd.service
