@@ -41,7 +41,7 @@ app.post('/download720Ftp', (req, res) => {
     download720(req.body.url).then(info => res.send(info)).catch(err => res.send(err.toString()))
 })
 
-app.get('/geekshine.mp4', (req, res) => {
+app.get('/geekshine', (req, res) => {
     async function download720Http(url) {
         let realUrl = await getRealUrl(decodeUrl(url))
         request(realUrl).pipe(res)
