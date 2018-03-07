@@ -48,16 +48,7 @@ app.get('/geekshine', (req, res) => {
 app.get('/geekshine2', (req, res) => {
     getRealUrl(decodeUrl(req.query.url)).then(realUrl => {
         https.get(realUrl, (videoStream) => {
-            let contentLength = videoStream.get('Content-Length')
-            let contentDisposition = videoStream.get('Content-Disposition')
-            // res.set({
-            //     "Content-Length": contentLength,
-            //     "Content-Disposition": contentDisposition
-            // })
-            res.send(JSON.stringify({
-                contentDisposition,
-                contentLength
-            }))
+            res.send(JSON.stringify(videoStream.getHeaders()))
         })
     }).catch(e => {
         console.log(e)
