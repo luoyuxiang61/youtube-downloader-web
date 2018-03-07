@@ -65,6 +65,8 @@ app.get('/geekshine2', (req, res) => {
                 contentLength
             }))
         })
+    }).catch(e => {
+        console.log(e)
     })
 })
 
