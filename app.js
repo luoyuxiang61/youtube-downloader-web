@@ -3,12 +3,13 @@ const bodyParser = require('body-parser')
 const path = require('path')
 const fs = require('fs')
 const request = require('request');
+const http = require('http')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded())
 const { getVideoInfo, download720, download1080, downloadList, deleteAllVideos, deleteOneVideo, decodeUrl, getRealUrl, getVideoInfo2 } = require('./functions')
 
 app.use((req, res, next) => {
-//     res.setHeader('Access-Control-Allow-Origin', '*')
+    //     res.setHeader('Access-Control-Allow-Origin', '*')
     next()
 })
 
@@ -48,6 +49,23 @@ app.get('/geekshine', (req, res) => {
     }
 
     download720Http(req.query.url)
+})
+
+app.get('/geekshine2', (req, res) => {
+    getRealUrl(decodeUrl(req.query.url)).then(realUrl => {
+        http.get(realUrl, (videoStream) => {
+            let contentLength = videoStream.get('Content-Length')
+            let contentDisposition = videoStream.get('Content-Disposition')
+            // res.set({
+            //     "Content-Length": contentLength,
+            //     "Content-Disposition": contentDisposition
+            // })
+            res.send(JSON.stringify({
+                contentDisposition,
+                contentLength
+            }))
+        })
+    })
 })
 
 app.get('/downloadByHashName', (req, res) => {
