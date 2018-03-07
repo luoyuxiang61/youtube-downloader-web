@@ -21,7 +21,7 @@ function getVideoInfo(url) {
 //get more info to show in the website
 async function getVideoInfo2(url) {
     let titleP = new Promise((resolve, reject) => {
-        exec(`youtube-dl -e ${url}`, (error, stdout, stderr) => {
+        exec(`youtube-dl --no-playlist -e ${url}`, (error, stdout, stderr) => {
             if (error) reject(error)
             if (stderr) reject(stderr)
             resolve(stdout)
@@ -29,7 +29,7 @@ async function getVideoInfo2(url) {
     })
 
     let thumbnailP = new Promise((resolve, reject) => {
-        exec(`youtube-dl --get-thumbnail ${url}`, (error, stdout, stderr) => {
+        exec(`youtube-dl --no-playlist --get-thumbnail ${url}`, (error, stdout, stderr) => {
             if (error) reject(error)
             if (stderr) reject(stderr)
             resolve(stdout.substr(0, stdout.length - 1))
@@ -37,7 +37,7 @@ async function getVideoInfo2(url) {
     })
 
     let descriptionP = new Promise((resolve, reject) => {
-        exec(`youtube-dl --get-description ${url}`, (error, stdout, stderr) => {
+        exec(`youtube-dl --no-playlist --get-description ${url}`, (error, stdout, stderr) => {
             if (error) reject(error)
             if (stderr) reject(stderr)
             resolve(stdout)
@@ -97,7 +97,7 @@ function getVideoSize(stdout) {
 
 function getRealUrl(url) {
     return new Promise((resolve, reject) => {
-        exec(`youtube-dl -f best -g ${url}`, (error, stdout, stderr) => {
+        exec(`youtube-dl --no-playlist -f best -g ${url}`, (error, stdout, stderr) => {
             if (error) reject(error)
             if (stderr) reject(stderr)
             resolve(stdout)
