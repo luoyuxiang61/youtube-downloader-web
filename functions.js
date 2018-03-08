@@ -46,14 +46,13 @@ function getThumbnail(url) {
 }
 
 
-
 //get more info to show in the website
 async function getVideoInfo2(url) {
     let titleP = new Promise((resolve, reject) => {
         exec(`youtube-dl --no-playlist -e ${url}`, (error, stdout, stderr) => {
             if (error) reject(error)
             if (stderr) reject(stderr)
-            resolve(stdout)
+            resolve(stdout.substr(0, stdout.length - 1))
         })
     })
 
@@ -61,7 +60,13 @@ async function getVideoInfo2(url) {
         exec(`youtube-dl --no-playlist --get-thumbnail ${url}`, (error, stdout, stderr) => {
             if (error) reject(error)
             if (stderr) reject(stderr)
-            resolve(stdout.substr(0, stdout.length - 1))
+            if (stdout) {
+                let thumbnailUrl = stdout.substr(0, stdout.length - 1)
+                let imgHashName = crypto.createHmac('sha256', thumbnailUrl).update('i love nodejs').digest('hex').substr(2, 10) + '.jpg'
+                exec(`cd /root/imgs && wget -c ${thumbnail} -O ${imgHashName}`
+                resolve(imgHashName)
+            }
+
         })
     })
 
@@ -69,25 +74,14 @@ async function getVideoInfo2(url) {
         exec(`youtube-dl --no-playlist --get-description ${url}`, (error, stdout, stderr) => {
             if (error) reject(error)
             if (stderr) reject(stderr)
-            resolve(stdout)
+            resolve(stdout.substr(0, stdout.length - 1))
         })
     })
 
-    let [title, thumbnail, description] = await Promise.all([titleP, thumbnailP, descriptionP])
-
-    let imgHashName = crypto.createHmac('sha256', thumbnail).update('i love nodejs').digest('hex').substr(2, 10) + '.jpg'
-
-    await new Promise((resolve, reject) => {
-        exec(`cd /root/imgs && rm -f * && wget -c ${thumbnail} -O ${imgHashName}`, (error, stdout, stderr) => {
-            if (error) reject(error)
-            if (stderr) reject(stderr)
-            resolve('ok')
-        })
-    }).catch(e => console.log(e))
+    let [title, imgHashName, description] = await Promise.all([titleP, thumbnailP, descriptionP])
 
     return JSON.stringify({
         title,
-        thumbnail,
         imgHashName,
         description
     })
