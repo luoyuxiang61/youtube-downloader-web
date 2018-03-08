@@ -32,11 +32,12 @@ app.get('/imgCdn', (req, res) => {
     res.sendFile(path.join('/root/imgs', `${req.query.imgHashName}`))
 })
 
-app.get('/guide.mp4', (req, res) => {
-    let videoPath = path.join('/var/ftp', `guide.mp4`)
+app.get('/videoCdn', (req, res) => {
+    let videoPath = path.join('/var/videocdn', req.query.name)
     let videoStream = fs.createReadStream(videoPath)
     videoStream.pipe(res)
 })
+
 
 app.post('/download720Ftp', (req, res) => {
     download720(req.body.url).then(info => res.send(info)).catch(err => res.send(err.toString()))
