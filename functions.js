@@ -18,6 +18,35 @@ function getVideoInfo(url) {
     })
 }
 
+//get the title of the video
+function getVideoTitle(url) {
+    return new Promise((resolve, rejct) => {
+        exec(`youtube-dl --no-playlist -e ${url}`, (error, stdout, stderr) => {
+            if (error) reject(error)
+            if (stderr) reject(stderr)
+            resolve(stdout.substr(0, stdout.length - 1))
+        })
+    })
+}
+
+//get the thumbnail url of the video and download it 
+function getThumbnail(url) {
+    return new Promise((resolve, reject) => {
+        exec(`youtube-dl --no-playlist --get-thumbnail ${url}`, (error, stdout, stderr) => {
+            if (error) reject(error)
+            if (stderr) reject(stderr)
+            if (stdout) {
+                let thumbnailUrl = stdout.substr(0, stdout.length - 1)
+                let imgHashName = new Date().toLocaleDateString + new Date().toLocaleTimeString + "lyx.jpg"
+                exec(`cd /root/imgs && rm -f * && wget -c ${thumbnailUrl} -O ${imgHashName}`)
+                resolve(imgHashName)
+            }
+        })
+    })
+}
+
+
+
 //get more info to show in the website
 async function getVideoInfo2(url) {
     let titleP = new Promise((resolve, reject) => {
@@ -179,6 +208,8 @@ module.exports.deleteOneVideo = deleteOneVideo
 module.exports.decodeUrl = decodeUrl
 module.exports.getRealUrl = getRealUrl
 module.exports.getVideoInfo2 = getVideoInfo2
+module.exports.getVideoTitle = getVideoTitle
+module.exports.getThumbnail = getThumbnail
 
 
 // downloadSingleVideo('https://youtu.be/lCGrVHUsXPo').then(value => console.log(value)).catch(err => console.log(err))

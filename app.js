@@ -6,7 +6,7 @@ const request = require('request');
 const https = require('https')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded())
-const { getVideoInfo, download720, download1080, downloadList, deleteAllVideos, deleteOneVideo, decodeUrl, getRealUrl, getVideoInfo2 } = require('./functions')
+const { getVideoInfo, download720, download1080, downloadList, deleteAllVideos, deleteOneVideo, decodeUrl, getRealUrl, getVideoInfo2, getVideoTitle, getThumbnail } = require('./functions')
 
 app.get('/', (req, res) => {
     res.send('hello, world');
@@ -26,6 +26,14 @@ app.post('/info2', (req, res) => {
     getVideoInfo2(req.body.url).then((x) => {
         res.send(x)
     })
+})
+
+app.post('/titleInfo', (req, res) => {
+    getVideoTitle(req.body.url).then(title => res.send(title))
+})
+
+app.post('/thumbnailInfo', (req, res) => {
+    getThumbnail(req.body.url).then(imgHashName => res.send(imgHashName))
 })
 
 app.get('/imgCdn', (req, res) => {
