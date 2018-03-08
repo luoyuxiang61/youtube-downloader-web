@@ -37,8 +37,8 @@ function getThumbnail(url) {
             if (stderr) reject(stderr)
             if (stdout) {
                 let thumbnailUrl = stdout.substr(0, stdout.length - 1)
-                let imgHashName = new Date().toLocaleDateString + new Date().toLocaleTimeString + "lyx.jpg"
-                exec(`cd /root/imgs && rm -f * && wget -c ${thumbnailUrl} -O ${imgHashName}`)
+                let imgHashName = crypto.createHmac('sha256', thumbnailUrl).update('i love nodejs').digest('hex').substr(2, 10) + '.jpg'
+                exec(`cd /root/imgs && wget -c ${thumbnailUrl} -O ${imgHashName}`)
                 resolve(imgHashName)
             }
         })
