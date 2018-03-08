@@ -63,7 +63,7 @@ async function getVideoInfo2(url) {
             if (stdout) {
                 let thumbnailUrl = stdout.substr(0, stdout.length - 1)
                 let imgHashName = crypto.createHmac('sha256', thumbnailUrl).update('i love nodejs').digest('hex').substr(2, 10) + '.jpg'
-                exec(`cd /root/imgs && wget -c ${thumbnail} -O ${imgHashName}`
+                exec(`cd /root/imgs && wget -c ${thumbnail} -O ${imgHashName}`)
                 resolve(imgHashName)
             }
 
