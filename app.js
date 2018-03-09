@@ -51,6 +51,11 @@ app.post('/download720Ftp', (req, res) => {
     download720(req.body.url).then(info => res.send(info)).catch(err => res.send(err.toString()))
 })
 
+
+app.post('/realUrl', (req, res) => {
+    getRealUrl(req.body.videoLink).then(realUrl => res.send(realUrl))
+})
+
 app.get('/geekshine', (req, res) => {
     async function download720Http(url) {
         let realUrl = await getRealUrl(decodeUrl(url))
@@ -61,8 +66,7 @@ app.get('/geekshine', (req, res) => {
 })
 
 app.get('/geekshine2', (req, res) => {
-    getRealUrl(decodeUrl(req.query.url)).then(realUrl => {
-        https.get(realUrl, (videoStream) => {
+        https.get(decodeUrl(req.query.url) , (videoStream) => {
             // res.send(JSON.stringify(videoStream.headers))
             let vh = videoStream.headers
             res.set({
@@ -72,9 +76,6 @@ app.get('/geekshine2', (req, res) => {
             })
             videoStream.pipe(res)
         })
-    }).catch(e => {
-        console.log(e)
-    })
 })
 
 app.get('/downloadByHashName', (req, res) => {
